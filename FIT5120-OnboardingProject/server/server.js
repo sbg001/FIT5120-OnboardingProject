@@ -155,6 +155,33 @@ app.get("/api/recommendation/clothing", (req, res) => {
 
 })
 
+// ===============================
+// US3.1 Sunscreen Dosage Guidance
+// AC3.1 UV-Based Sunscreen Dosage
+// ===============================
+
+app.get("/api/sunscreen/dosage", (req, res) => {
+
+  const uvIndex = parseFloat(req.query.uv || 5)
+
+  let dosage = "1 teaspoon"
+  let spf = "SPF30"
+  let reapplyMinutes = 120
+
+  if (uvIndex >= 8) {
+    dosage = "2 teaspoons"
+    spf = "SPF50"
+    reapplyMinutes = 90
+  }
+
+  res.json({
+    uvIndex,
+    recommendedAmount: dosage,
+    spf,
+    reapplyMinutes
+  })
+
+})
 
 // ===============================
 // Start server
