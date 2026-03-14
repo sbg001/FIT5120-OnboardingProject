@@ -1,3 +1,49 @@
+/*
+=============================
+UV SAFETY API DOCUMENTATION
+=============================
+
+GET /api/uv/current
+Returns current UV data
+
+params:
+lat (optional)
+lon (optional)
+
+response:
+{
+ location,
+ uvIndex,
+ temperature,
+ riskLevel,
+ alertLevel,
+ reapplyMinutes
+}
+
+-----------------------------
+
+GET /api/awareness/uv-trend
+Returns historical UV data
+
+-----------------------------
+
+GET /api/awareness/cancer-stats
+Returns skin cancer statistics
+
+-----------------------------
+
+GET /api/recommendation/clothing
+params:
+uv
+
+-----------------------------
+
+GET /api/sunscreen/dosage
+params:
+uv
+
+=============================
+*/
 // DATA LAYER PLACEHOLDER
 // TODO: replace with database queries (Data Science teammate)
 
@@ -19,6 +65,7 @@ const awarenessData = {
 import express from "express"
 import axios from "axios"
 import cors from "cors"
+import xml2js from "xml2js"
 
 const app = express()
 
@@ -28,29 +75,46 @@ const PORT = 3000
 
 
 // Root route 
-app.get("/", (req, res) => {
-  res.send("UV Safety API is running")
-})
-
-
-// ===============================
-// US1.1 Real-Time Localised UV Alerts
-// AC1.1 + AC1.3
-// ===============================
 app.get("/api/uv/current", async (req, res) => {
 
   try {
 
-    const lat = -37.8136
-    const lon = 144.9631
-
     const response = await axios.get(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=uv_index&current_weather=true`
+      "https://uvdata.arpansa.gov.au/xml/uvvalues.xml"
     )
 
-    const uvIndex = response.data.hourly.uv_index[0]
-    const temperature = response.data.current_weather.temperature
+    const parser = new xml2js.Parser()
 
+    const result = await parser.parseStringPromise(response.data)
+
+    // debug
+    console.log("UV XML parsed")
+
+    const stations = result.stations?.location
+
+    if (!stations) {
+      return res.status(500).json({
+        error: "UV station list not found"
+      })
+    }
+
+    const melbourne = stations.find(
+      s => s.$?.id === "Melbourne"
+    )
+
+    if (!melbourne) {
+      return res.status(500).json({
+        error: "Melbourne station not found"
+      })
+    }
+
+    const uvIndex = parseFloat(melbourne.index[0])
+    // get temperature from weather API
+    const weather = await axios.get(
+      "https://api.open-meteo.com/v1/forecast?latitude=-37.8136&longitude=144.9631&current_weather=true"
+    )
+
+    const temperature = weather.data.current_weather.temperature
     let riskLevel = "Low"
 
     if (uvIndex >= 11) riskLevel = "Extreme"
@@ -58,25 +122,27 @@ app.get("/api/uv/current", async (req, res) => {
     else if (uvIndex >= 6) riskLevel = "High"
     else if (uvIndex >= 3) riskLevel = "Moderate"
 
-    // AC1.3 alert trigger logic
-    let alertLevel = "safe"
+    let reapplyMinutes = 120
 
-    if (uvIndex >= 8) {
-      alertLevel = "danger"
-    }
+    if (uvIndex >= 11) reapplyMinutes = 45
+    else if (uvIndex >= 8) reapplyMinutes = 60
+    else if (uvIndex >= 6) reapplyMinutes = 90
+    else if (uvIndex >= 3) reapplyMinutes = 120
+    else reapplyMinutes = 180
+    const alertLevel = uvIndex >= 8 ? "danger" : "safe"
 
+   
     res.json({
       location: "Melbourne VIC",
       uvIndex,
       temperature,
       riskLevel,
       alertLevel,
-      reapplyMinutes: 120
+      reapplyMinutes
     })
-
   } catch (error) {
 
-    console.error("UV API error:", error)
+    console.error("UV API ERROR:", error)
 
     res.status(500).json({
       error: "Failed to fetch UV data"
@@ -188,4 +254,32 @@ app.get("/api/sunscreen/dosage", (req, res) => {
 // ===============================
 app.listen(PORT, () => {
   console.log(`Backend running on http://localhost:${PORT}`)
+})
+// ===============================
+// US2.2 Personal UV Risk Assessment
+// ===============================
+
+app.get("/api/risk-assessment", (req, res) => {
+
+  const skinType = req.query.skin || "medium"
+  const uvIndex = parseFloat(req.query.uv || 5)
+
+  let risk = "Low"
+
+  if (uvIndex >= 8 && skinType === "fair") {
+    risk = "Very High"
+  }
+  else if (uvIndex >= 6) {
+    risk = "High"
+  }
+  else if (uvIndex >= 3) {
+    risk = "Moderate"
+  }
+
+  res.json({
+    skinType,
+    uvIndex,
+    risk
+  })
+
 })
