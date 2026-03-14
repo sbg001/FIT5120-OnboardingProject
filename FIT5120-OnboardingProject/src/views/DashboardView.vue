@@ -16,7 +16,7 @@
 
           <div class="location-pill">
             <span class="pill-label">Status</span>
-            <span class="pill-value">Moderate UV Day</span>
+            <span class="pill-value">{{ uvData?.riskLevel }} UV Day</span>
           </div>
         </div>
       </div>
@@ -27,8 +27,8 @@
 
           <div class="uv-ring">
             <div class="uv-ring-inner">
-              <span class="uv-number">4</span>
-              <span class="uv-label">Moderate</span>
+              <span class="uv-number">{{ uvData?.uvIndex }}</span>
+              <span class="uv-label">{{ uvData?.riskLevel }}</span>
             </div>
           </div>
 
@@ -56,12 +56,12 @@
       <div class="info-grid">
         <div class="info-card">
           <p class="info-label">Current Temp</p>
-          <p class="info-value">24°C</p>
+          <p class="info-value">{{ uvData?.temperature }}°C</p>
         </div>
 
         <div class="info-card">
           <p class="info-label">Re-apply Sunscreen</p>
-          <p class="info-value">120 min</p>
+          <p class="info-value">{{ uvData?.reapplyMinutes }} min</p>
         </div>
       </div>
     </section>
@@ -108,6 +108,14 @@
 
 <script setup>
 // - real UV value
+import { ref, onMounted } from "vue"
+import { getCurrentUV } from "../services/uvService"
+
+const uvData = ref(null)
+
+onMounted(async () => {
+  uvData.value = await getCurrentUV()
+})
 // - dynamic colour scaling
 // - API-based location
 // - navigation buttons
