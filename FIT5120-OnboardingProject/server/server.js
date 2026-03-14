@@ -29,13 +29,20 @@ app.get("/api/uv/current", async (req, res) => {
     else if (uvIndex >= 8) riskLevel = "Very High"
     else if (uvIndex >= 6) riskLevel = "High"
     else if (uvIndex >= 3) riskLevel = "Moderate"
+    
+    let alertLevel = "safe"
 
+    if (uvIndex >= 8) {
+    alertLevel = "danger"
+    }
+    
     res.json({
-      location: "Melbourne VIC",
-      uvIndex,
-      temperature,
-      riskLevel,
-      reapplyMinutes: 120
+        location: "Melbourne VIC",
+        uvIndex,
+        temperature,
+        riskLevel,
+        alertLevel,
+        reapplyMinutes: 120
     })
 
   } catch (error) {
