@@ -1,3 +1,21 @@
+// DATA LAYER PLACEHOLDER
+// TODO: replace with database queries (Data Science teammate)
+
+const awarenessData = {
+  uvTrend: [
+    { year: 2019, uv: 8.1 },
+    { year: 2020, uv: 8.3 },
+    { year: 2021, uv: 8.4 },
+    { year: 2022, uv: 8.6 }
+  ],
+
+  cancerStats: [
+    { year: 2019, cases: 12000 },
+    { year: 2020, cases: 12500 },
+    { year: 2021, cases: 13000 }
+  ]
+}
+
 import express from "express"
 import axios from "axios"
 import cors from "cors"
@@ -73,6 +91,9 @@ app.get("/api/uv/current", async (req, res) => {
 // US2.1 UV Awareness
 // AC2.1 Visualisation data
 // ===============================
+// AC2.1 UV Awareness Visualisation
+// TODO: replace mock data with database query (Data teammate)
+
 app.get("/api/awareness/uv-trend", (req, res) => {
 
   const data = [
@@ -88,13 +109,15 @@ app.get("/api/awareness/uv-trend", (req, res) => {
 })
 
 
+// AC2.1 UV Awareness Visualisation
+// TODO: replace mock data with database query
+
 app.get("/api/awareness/cancer-stats", (req, res) => {
 
   const data = [
-    { year: 2019, cases: 119000 },
-    { year: 2020, cases: 121000 },
-    { year: 2021, cases: 124000 },
-    { year: 2022, cases: 127000 }
+    { year: 2019, cases: 12000 },
+    { year: 2020, cases: 12500 },
+    { year: 2021, cases: 13000 }
   ]
 
   res.json(data)
