@@ -48,7 +48,7 @@
 
         <h2>Today's guidance</h2>
         <p>
-          UV levels are moderate right now. Chloe should wear sunscreen, sunglasses, and
+          UV levels are moderate right now. Wear sunscreen, sunglasses, and
           keep an eye on exposure if spending extended time outside.
         </p>
       </div>
@@ -77,7 +77,7 @@
           <div class="action-icon">📊</div>
           <h3>UV Awareness</h3>
           <p>View visual insights about UV impact, skin cancer, and heat trends.</p>
-          <button class="action-btn">Open Page</button>
+          <button class="action-btn" @click="goToAwareness">Open Page</button>
         </div>
 
         <div class="action-card">
@@ -110,12 +110,18 @@
 // - real UV value
 import { ref, onMounted } from "vue"
 import { getCurrentUV } from "../services/uvService"
+import { useRouter } from "vue-router"
 
 const uvData = ref(null)
+const router = useRouter()
 
 onMounted(async () => {
   uvData.value = await getCurrentUV()
 })
+
+function goToAwareness() {
+  router.push("/awareness")
+}
 // - dynamic colour scaling
 // - API-based location
 // - navigation buttons
