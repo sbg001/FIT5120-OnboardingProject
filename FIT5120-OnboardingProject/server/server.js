@@ -193,33 +193,59 @@ app.get("/api/awareness/cancer-stats", (req, res) => {
 
 // ===============================
 // US3.3 Sun-Protective Clothing Guidance
-// AC3.3 (AI teammate will improve later)
+// AC3.3 clothing recommendations based on UV Index
 // ===============================
-app.get("/api/recommendation/clothing", (req, res) => {
-
-  const uvIndex = parseFloat(req.query.uv || 0)
-
-  let recommendation = []
-
-  if (uvIndex >= 8) {
-    recommendation = [
-      "Wide-brim hat",
-      "Long sleeve shirt",
-      "UV sunglasses"
-    ]
-  } else {
-    recommendation = [
-      "Sunglasses",
-      "Light protective clothing"
-    ]
+const clothingRules = [
+  { 
+    minUv: 0, 
+    maxUv: 2, 
+    level: "Low", 
+    advice: "UV is barely there. You're good to go, but main character energy always includes a daily SPF anyway.", 
+    items: ["Your usual fit", "Aesthetic sunnies if it's bright"] 
+  },
+  { 
+    minUv: 3, 
+    maxUv: 5, 
+    level: "Moderate", 
+    advice: "UV is creeping up. Time for a sun-smart fit check. Don't let the sun wreck your skin barrier.", 
+    items: ["Oversized tee or a light layer", "Bucket hat", "Cute sunnies"] 
+  },
+  { 
+    minUv: 6, 
+    maxUv: 7, 
+    level: "High", 
+    advice: "The sun is officially hating on your skin today. High UV means it's time to layer up and protect that glow.", 
+    items: ["Lightweight long sleeves (linen is a vibe)", "Maxi skirt or baggy pants", "Bucket hat", "UV-blocking sunnies"] 
+  },
+  { 
+    minUv: 8, 
+    maxUv: 10, 
+    level: "Very High", 
+    advice: "UV is absolutely roasting right now. Literally, do not go out without armor. Sun damage is not the vibe.", 
+    items: ["UPF clothing (make it fashion)", "Wide-brim hat (hide from the haters & the sun)", "Dark wrap sunnies"] 
+  },
+  { 
+    minUv: 11, 
+    maxUv: 99, 
+    level: "Extreme", 
+    advice: "Demon mode UV. Honestly, just stay inside. If you *must* go out, cover literally everything and seek shade.", 
+    items: ["UPF 50+ long sleeves & pants", "The biggest hat you own", "UV sunnies", "An iced coffee in the shade"] 
   }
+];
+app.get("/api/recommendation/clothing", (req, res) => {
+  const uvIndex = parseFloat(req.query.uv || 0);
 
+  // Find the matching rule based on the current UV Index
+  const recommendation = clothingRules.find(rule => uvIndex >= rule.minUv && uvIndex <= rule.maxUv) || clothingRules[clothingRules.length - 1];
+
+  // Send back the detailed object to the Vue frontend
   res.json({
     uvIndex,
-    items: recommendation
-  })
-
-})
+    level: recommendation.level,
+    advice: recommendation.advice,
+    items: recommendation.items
+  });
+});
 
 // ===============================
 // US3.1 Sunscreen Dosage Guidance
