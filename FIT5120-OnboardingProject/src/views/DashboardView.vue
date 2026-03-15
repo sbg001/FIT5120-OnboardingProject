@@ -84,7 +84,7 @@
           <div class="action-icon">🧴</div>
           <h3>Sunscreen Dosage</h3>
           <p>Help Chloe understand how much sunscreen to apply for protection.</p>
-          <button class="action-btn">Open Page</button>
+          <button class="action-btn" @click="goToDosage">Open Page</button>
         </div>
 
         <div class="action-card">
@@ -121,6 +121,10 @@ onMounted(async () => {
 
 function goToAwareness() {
   router.push("/awareness")
+}
+
+function goToDosage() {
+  router.push("/dosage")
 }
 // - dynamic colour scaling
 // - API-based location

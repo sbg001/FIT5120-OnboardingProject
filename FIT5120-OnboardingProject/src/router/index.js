@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import DashboardView from '../views/DashboardView.vue'
 import UvAwarenessView from '../views/UvAwarenessView.vue'
+import SunscreenDosageView from '../views/SunscreenDosageView.vue'
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: '/awareness',
     name: 'awareness',
     component: UvAwarenessView
+  },
+  {
+    path: '/dosage',
+    name: 'dosage',
+    component: SunscreenDosageView
   }
 ]
 
