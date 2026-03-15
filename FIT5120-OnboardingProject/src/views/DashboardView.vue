@@ -98,7 +98,7 @@
           <div class="action-icon">🧠</div>
           <h3>Risk Assessment</h3>
           <p>Check personal UV risk using skin tone and exposure factors.</p>
-          <button class="action-btn">Open Page</button>
+          <button class="action-btn" @click="goToRisk">Open Page</button>
         </div>
       </div>
     </section>
@@ -125,6 +125,10 @@ function goToAwareness() {
 
 function goToDosage() {
   router.push("/dosage")
+}
+
+function goToRisk() {
+  router.push('/risk')
 }
 // - dynamic colour scaling
 // - API-based location
