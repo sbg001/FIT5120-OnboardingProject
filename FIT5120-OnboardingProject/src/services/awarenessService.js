@@ -32,3 +32,14 @@ export async function getTemperatureTrendData() {
     return []
   }
 }
+
+export async function getCurrentUvData() {
+  try {
+    const response = await fetch(`${API_BASE}/api/uv/current`)
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error("Failed to fetch current UV data:", error)
+    return null
+  }
+}

@@ -115,8 +115,30 @@ import { useRouter } from "vue-router"
 const uvData = ref(null)
 const router = useRouter()
 
+const loading = ref(true)
+
+const error = ref(null)
+
 onMounted(async () => {
-  uvData.value = await getCurrentUV()
+  try {
+    console.log("Fetching UV data...")
+    
+    const data = await getCurrentUV()
+
+    console.log("API response:", data)
+
+    if (data) {
+      uvData.value = data
+    } else {
+      error.value = "No data returned"
+    }
+
+  } catch (err) {
+    console.error("UV fetch error:", err)
+    error.value = err
+  } finally {
+    loading.value = false
+  }
 })
 
 function goToAwareness() {
@@ -130,10 +152,12 @@ function goToDosage() {
 function goToRisk() {
   router.push('/risk')
 }
+
 // - dynamic colour scaling
 // - API-based location
 // - navigation buttons
 </script>
+
 
 <style scoped>
 .dashboard-page {
