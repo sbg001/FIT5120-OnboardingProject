@@ -393,4 +393,19 @@ const uvRingStyle = computed(() => {
   margin-bottom: 16px;
 }
 
+.dashboard-page h1 {
+  color: #2563eb;
+  font-weight: 800;
+}
+
+.dashboard-page h2 {
+  color: #2563eb;
+  font-weight: 700;
+}
+
+.dashboard-page h3 {
+  color: #2563eb;
+  font-weight: 700;
+}
+
 </style>
