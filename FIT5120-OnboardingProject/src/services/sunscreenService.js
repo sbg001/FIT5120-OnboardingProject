@@ -1,6 +1,6 @@
 const API_BASE = "https://fit5120-onboardingproject.onrender.com"
 
-export async function getDosageRecommendation(uv) {
+export async function getSunscreenDosage(uv) {
 
   try {
 
@@ -12,9 +12,9 @@ export async function getDosageRecommendation(uv) {
       throw new Error("Dosage API failed")
     }
 
-    const result = await response.json()
+    const data = await response.json()
 
-    return result
+    return data
 
   } catch (error) {
 
@@ -23,4 +23,5 @@ export async function getDosageRecommendation(uv) {
     return null
 
   }
+
 }
