@@ -19,3 +19,14 @@ export async function getCancerStatsData() {
     return []
   }
 }
+
+export async function getTemperatureTrendData() {
+  try {
+    const response = await fetch('http://localhost:3000/api/awareness/temperature-trend')
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Failed to fetch temperature trend data:', error)
+    return []
+  }
+}

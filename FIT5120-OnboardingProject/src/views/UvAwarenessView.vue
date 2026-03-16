@@ -25,46 +25,54 @@
           <div class="data-card">
             <div class="card-header">
               <h2>UV Trend</h2>
-              <!-- <span class="card-badge">API Data</span> -->
             </div>
 
             <p class="card-description">
               Historical UV trend values for awareness visualisation.
             </p>
 
-            <div class="simple-list">
-              <div
-                v-for="item in uvTrend"
-                :key="item.year"
-                class="list-row"
-              >
-                <span class="list-year">{{ item.year }}</span>
-                <span class="list-value">UV Index: {{ item.uvIndex }}</span>
-              </div>
+            <div style="height:300px">
+              <Line
+                v-if="uvTrend.length"
+                :data="uvChartData"
+              />
             </div>
           </div>
 
           <div class="data-card">
             <div class="card-header">
               <h2>Skin Cancer Statistics</h2>
-              <!-- <span class="card-badge">API Data</span> -->
             </div>
 
             <p class="card-description">
               Example yearly skin cancer case numbers for awareness.
             </p>
 
-            <div class="simple-list">
-              <div
-                v-for="item in cancerStats"
-                :key="item.year"
-                class="list-row"
-              >
-                <span class="list-year">{{ item.year }}</span>
-                <span class="list-value">Cases: {{ item.cases }}</span>
-              </div>
+            <div style="height:300px">
+              <Line
+                v-if="cancerStats.length"
+                :data="cancerChartData"
+              />
             </div>
           </div>
+
+          <div class="data-card">
+            <div class="card-header">
+              <h2>Temperature Trend</h2>
+            </div>
+
+            <p class="card-description">
+              Historical average temperature trend in Melbourne.
+            </p>
+
+            <div style="height:300px">
+              <Line
+                v-if="temperatureTrend.length"
+                :data="temperatureChartData"
+              />
+            </div>
+          </div>
+
         </div>
 
         <div class="insight-grid">
@@ -75,14 +83,6 @@
               warning, but part of a broader health issue affecting Australians.
             </p>
           </div>
-
-          <div class="insight-card">
-            <h3>What comes next</h3>
-            <p>
-              In the next iteration, these data cards can be upgraded into charts once
-              the page structure and API connection are confirmed to work.
-            </p>
-          </div>
         </div>
       </template>
     </section>
@@ -91,30 +91,55 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+
+import { ref, onMounted, computed } from 'vue'
 import { getUvTrendData, getCancerStatsData } from '../services/awarenessService'
+import { getTemperatureTrendData } from '../services/awarenessService'
 import PageHeader from "../components/PageHeader.vue"
+import { Line } from 'vue-chartjs'
+
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement
+} from 'chart.js'
+
+ChartJS.register(
+  Title,
+  Tooltip,
+  Legend,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement
+)
 
 const uvTrend = ref([])
 const cancerStats = ref([])
+const temperatureTrend = ref([])
+
 const loading = ref(true)
 const error = ref('')
 
 async function loadAwarenessData() {
+
   loading.value = true
   error.value = ''
 
-  const [uvTrendResult, cancerStatsResult] = await Promise.all([
+  const [uvTrendResult, cancerStatsResult, temperatureResult] = await Promise.all([
     getUvTrendData(),
-    getCancerStatsData()
+    getCancerStatsData(),
+    getTemperatureTrendData()
   ])
 
   uvTrend.value = uvTrendResult
   cancerStats.value = cancerStatsResult
-
-  if (!uvTrendResult.length && !cancerStatsResult.length) {
-    error.value = 'The awareness APIs could not be reached. Make sure the backend server is running on port 3000.'
-  }
+  temperatureTrend.value = temperatureResult
 
   loading.value = false
 }
@@ -122,6 +147,44 @@ async function loadAwarenessData() {
 onMounted(() => {
   loadAwarenessData()
 })
+
+const uvChartData = computed(() => ({
+  labels: uvTrend.value.map(d => d.year),
+  datasets: [
+    {
+      label: "UV Index",
+      data: uvTrend.value.map(d => d.uvIndex),
+      borderColor: "#ff9800",
+      backgroundColor: "rgba(255,152,0,0.3)"
+    }
+  ]
+}))
+
+const cancerChartData = computed(() => ({
+  labels: cancerStats.value.map(d => d.year),
+  datasets: [
+    {
+      label: "Skin Cancer Cases",
+      data: cancerStats.value.map(d => d.cases),
+      borderColor: "#ef5350",
+      backgroundColor: "rgba(239,83,80,0.3)"
+    }
+  ]
+}))
+
+const temperatureChartData = computed(() => ({
+  labels: temperatureTrend.value.map(d => d.year),
+  datasets: [
+    {
+      label: "Average Temperature (°C)",
+      data: temperatureTrend.value.map(d => d.temperature),
+      borderColor: "#3b82f6",
+      backgroundColor: "rgba(59,130,246,0.3)",
+      tension: 0.3
+    }
+  ]
+}))
+
 </script>
 
 <style scoped>
@@ -181,7 +244,7 @@ onMounted(() => {
 
 .charts-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
   margin-bottom: 24px;
 }
@@ -204,45 +267,10 @@ onMounted(() => {
   font-size: 1.35rem;
 }
 
-.card-badge {
-  display: inline-block;
-  padding: 8px 12px;
-  background: #fff1bf;
-  color: #92400e;
-  font-size: 0.85rem;
-  font-weight: 700;
-  border-radius: 999px;
-}
-
 .card-description {
   margin: 0 0 18px;
   color: #6b7280;
   line-height: 1.6;
-}
-
-.simple-list {
-  display: grid;
-  gap: 12px;
-}
-
-.list-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  background: #fff8dc;
-  border-radius: 16px;
-}
-
-.list-year {
-  font-weight: 700;
-  color: #111827;
-}
-
-.list-value {
-  color: #4b5563;
-  font-weight: 600;
 }
 
 .insight-grid {
@@ -279,11 +307,6 @@ onMounted(() => {
 
   .awareness-hero h1 {
     font-size: 2rem;
-  }
-
-  .list-row {
-    flex-direction: column;
-    align-items: flex-start;
   }
 }
 </style>

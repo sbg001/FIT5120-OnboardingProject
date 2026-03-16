@@ -120,14 +120,19 @@ app.get("/api/uv/current", async (req, res) => {
 // AC2.1 UV Awareness Visualisation
 // TODO: replace mock data with database query (Data teammate)
 
-app.get("/api/awareness/uv-trend", (req, res) => {
+app.get("/api/awareness/uv-trend", async (req, res) => {
 
   const data = [
-    { year: 2019, uvIndex: 7.9 },
-    { year: 2020, uvIndex: 8.1 },
-    { year: 2021, uvIndex: 8.2 },
-    { year: 2022, uvIndex: 8.4 },
-    { year: 2023, uvIndex: 8.5 }
+    { year: 2015, uvIndex: 7.4 },
+    { year: 2016, uvIndex: 7.6 },
+    { year: 2017, uvIndex: 7.8 },
+    { year: 2018, uvIndex: 8.0 },
+    { year: 2019, uvIndex: 8.1 },
+    { year: 2020, uvIndex: 8.3 },
+    { year: 2021, uvIndex: 8.4 },
+    { year: 2022, uvIndex: 8.6 },
+    { year: 2023, uvIndex: 8.7 },
+    { year: 2024, uvIndex: 8.8 }
   ]
 
   res.json(data)
@@ -142,31 +147,65 @@ app.get("/api/awareness/cancer-stats", async (req, res) => {
 
   const { data, error } = await supabase
     .from("skin_cancer_stats")
-    .select("*")
+    .select("year, risk_diagnosis_ratio")
 
   if (error) {
     console.error(error)
     return res.status(500).json({ error: "Database error" })
   }
 
-  res.json(data)
+  const formatted = data.map(row => ({
+    year: row.year,
+    cases: row.risk_diagnosis_ratio
+  }))
+
+  res.json(formatted)
 
 })
 
 app.get("/api/awareness/temperature-trend", async (req, res) => {
 
-  const { data, error } = await supabase
-    .from("temperature")
-    .select("year, month, day, max_temperature")
-    .limit(365)
+  let allData = []
+  let start = 0
+  const pageSize = 1000
 
-  if (error) {
-    console.error(error)
-    return res.status(500).json({ error: "Database error" })
+  while (true) {
+
+    const { data, error } = await supabase
+      .from("temperature")
+      .select("year, max_temperature")
+      .range(start, start + pageSize - 1)
+
+    if (error) {
+      console.error(error)
+      return res.status(500).json({ error: "Database error" })
+    }
+
+    if (!data.length) break
+
+    allData = allData.concat(data)
+    start += pageSize
   }
 
-  res.json(data)
+  const yearly = {}
 
+  allData.forEach(row => {
+    if (!yearly[row.year]) {
+      yearly[row.year] = { total: 0, count: 0 }
+    }
+
+    yearly[row.year].total += row.max_temperature
+    yearly[row.year].count += 1
+  })
+
+  const result = Object.keys(yearly)
+    .sort((a,b)=>a-b)
+    .map(year => ({
+      year: Number(year),
+      temperature: yearly[year].total / yearly[year].count
+    }))
+
+  res.json(result)
 })
 // ===============================
 // US3.3 Sun-Protective Clothing Guidance
