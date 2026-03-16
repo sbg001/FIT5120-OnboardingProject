@@ -177,17 +177,16 @@ const uvRingStyle = computed(() => {
 <style scoped>
 .dashboard-page {
   min-height: 100vh;
-  padding: 32px;
-  background: transparent;
+  padding: 40px;
+  background: radial-gradient(circle at top, #ffe082, #facc15);
   color: #1f2937;
 }
 
 .dashboard-hero {
   display: grid;
   grid-template-columns: 1.3fr 1fr;
-  gap: 24px;
-  align-items: center;
-  margin-bottom: 28px;
+  gap: 28px;
+  margin-bottom: 32px;
 }
 
 .hero-left,
@@ -195,55 +194,30 @@ const uvRingStyle = computed(() => {
 .alert-card,
 .info-card,
 .action-card {
-  background: rgba(255, 252, 244, 0.96);
-  border-radius: 24px;
-  box-shadow: 0 12px 30px rgba(31, 41, 55, 0.08);
+  background: rgba(255,255,255,0.92);
+  border-radius: 20px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.08);
 }
 
 .hero-left {
   padding: 32px;
 }
 
-.eyebrow {
-  margin: 0 0 10px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #3b82f6;
-}
-
 .hero-text {
-  margin: 0 0 24px;
-  font-size: 1rem;
-  line-height: 1.7;
+  margin: 12px 0 24px;
+  line-height: 1.6;
   color: #4b5563;
-  max-width: 640px;
 }
 
 .location-row {
   display: flex;
-  flex-wrap: wrap;
   gap: 12px;
 }
 
 .location-pill {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 14px 18px;
+  padding: 10px 16px;
   background: #fff7d6;
-  border-radius: 16px;
-}
-
-.pill-label {
-  font-size: 0.8rem;
-  color: #6b7280;
-}
-
-.pill-value {
-  font-weight: 700;
-  color: #111827;
+  border-radius: 12px;
 }
 
 .hero-right {
@@ -251,11 +225,9 @@ const uvRingStyle = computed(() => {
 }
 
 .uv-card {
-  height: 100%;
-  border-radius: 24px;
-  padding: 28px 24px;
+  padding: 24px;
+  border-radius: 20px;
   text-align: center;
-  color: #111827;
 }
 
 .uv-card.low {
@@ -263,7 +235,7 @@ const uvRingStyle = computed(() => {
 }
 
 .uv-card.moderate {
-  background: linear-gradient(180deg, #ffe88a 0%, #ffd54f 100%);
+  background: linear-gradient(180deg,#ffe88a,#ffd54f);
 }
 
 .uv-card.high {
@@ -278,16 +250,10 @@ const uvRingStyle = computed(() => {
   background: linear-gradient(180deg,#c4b5fd,#8b5cf6);
 }
 
-.uv-card-title {
-  margin: 0 0 18px;
-  font-size: 1rem;
-  font-weight: 700;
-}
-
 .uv-ring {
   width: 220px;
   height: 220px;
-  margin: 0 auto 18px;
+  margin: 20px auto;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -298,7 +264,7 @@ const uvRingStyle = computed(() => {
   width: 170px;
   height: 170px;
   border-radius: 50%;
-  background: rgba(255, 248, 220, 0.95);
+  background: rgba(255,255,255,0.85);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -306,41 +272,24 @@ const uvRingStyle = computed(() => {
 }
 
 .uv-number {
-  font-size: 3.3rem;
+  font-size: 3rem;
   font-weight: 800;
 }
 
 .uv-label {
-  margin-top: 8px;
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.uv-message {
-  margin: 0;
-  font-size: 0.98rem;
-  line-height: 1.6;
+  font-weight: 600;
 }
 
 .alert-section {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 24px;
-  margin-bottom: 28px;
+  margin-bottom: 36px;
 }
 
 .alert-card {
-  padding: 24px;
-  border-left: 8px solid #f59e0b;
-}
-
-.alert-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 14px;
+  padding: 28px;
+  border-left: 6px solid #f59e0b;
 }
 
 .info-grid {
@@ -348,13 +297,64 @@ const uvRingStyle = computed(() => {
   gap: 16px;
 }
 
+.info-card {
+  padding: 20px;
+}
+
+.info-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
 .quick-actions-section {
-  margin-bottom: 28px;
+  margin-top: 20px;
 }
 
 .action-grid {
+  margin-top: 20px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(4,1fr);
+  gap: 22px;
+}
+
+.action-card {
+  padding: 24px;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.action-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+}
+
+.action-btn {
+  margin-top: 14px;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #1d4ed8;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.action-btn:hover {
+  background: #1e40af;
+}
+
+@media (max-width:1100px) {
+  .dashboard-hero,
+  .alert-section,
+  .action-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width:768px) {
+  .dashboard-hero,
+  .alert-section,
+  .action-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
