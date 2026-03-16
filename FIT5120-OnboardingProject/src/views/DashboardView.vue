@@ -190,13 +190,16 @@ const uvRingStyle = computed(() => {
 }
 
 .hero-left,
-.hero-right,
 .alert-card,
 .info-card,
 .action-card {
-  background: rgba(255,255,255,0.92);
-  border-radius: 20px;
-  box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+  background: rgba(255, 252, 244, 0.96);
+  border-radius: 24px;
+  box-shadow: 0 12px 30px rgba(31, 41, 55, 0.08);
+}
+
+.hero-right {
+  padding: 24px;
 }
 
 .hero-left {
@@ -236,6 +239,19 @@ const uvRingStyle = computed(() => {
 
 .uv-card.moderate {
   background: linear-gradient(180deg,#ffe88a,#ffd54f);
+}
+
+.uv-card.low {
+  background: linear-gradient(180deg, #d1fae5 0%, #6ee7b7 100%);
+}
+
+.uv-card.high {
+  background: linear-gradient(180deg, #fed7aa 0%, #fb923c 100%);
+}
+
+.uv-card.extreme {
+  background: linear-gradient(180deg, #fecaca 0%, #ef4444 100%);
+  color: white;
 }
 
 .uv-card.high {
@@ -328,18 +344,20 @@ const uvRingStyle = computed(() => {
 }
 
 .action-btn {
-  margin-top: 14px;
   border: none;
-  padding: 10px 14px;
   border-radius: 12px;
-  background: #1d4ed8;
-  color: white;
+  padding: 10px 18px;
+  background: #2563eb;
+  color: #ffffff;
   font-weight: 600;
+  font-size: 0.9rem;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .action-btn:hover {
-  background: #1e40af;
+  background: #1d4ed8;
+  transform: translateY(-1px);
 }
 
 @media (max-width:1100px) {
@@ -357,4 +375,22 @@ const uvRingStyle = computed(() => {
     grid-template-columns: 1fr;
   }
 }
+
+.action-icon {
+  font-size: 3rem;
+  line-height: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 60px;
+  height: 60px;
+
+  background: #f3f4f6;
+  border-radius: 16px;
+
+  margin-bottom: 16px;
+}
+
 </style>
