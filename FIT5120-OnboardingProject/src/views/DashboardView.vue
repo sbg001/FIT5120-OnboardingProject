@@ -139,7 +139,7 @@ function goToRisk() {
 .dashboard-page {
   min-height: 100vh;
   padding: 32px;
-  background: linear-gradient(180deg, #f8fbff 0%, #eef5fb 100%);
+  background: transparent;
   color: #1f2937;
 }
 
@@ -156,7 +156,7 @@ function goToRisk() {
 .alert-card,
 .info-card,
 .action-card {
-  background: #ffffff;
+  background: rgba(255, 252, 244, 0.96);
   border-radius: 24px;
   box-shadow: 0 12px 30px rgba(31, 41, 55, 0.08);
 }
@@ -199,7 +199,7 @@ function goToRisk() {
   flex-direction: column;
   gap: 4px;
   padding: 14px 18px;
-  background: #f3f7fb;
+  background: #fff7d6;
   border-radius: 16px;
 }
 

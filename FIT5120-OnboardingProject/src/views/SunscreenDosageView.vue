@@ -149,7 +149,7 @@ onMounted(() => {
 .input-card,
 .result-card,
 .education-card {
-  background: #ffffff;
+  background: rgba(255, 252, 244, 0.96);
   border-radius: 24px;
   box-shadow: 0 12px 30px rgba(31, 41, 55, 0.08);
 }
@@ -205,15 +205,15 @@ onMounted(() => {
   border: none;
   border-radius: 999px;
   padding: 10px 14px;
-  background: #ffedd5;
-  color: #9a3412;
+  background: #fff1bf;
+  color: #92400e;
   font-weight: 700;
   cursor: pointer;
   transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .uv-chip:hover {
-  background: #fed7aa;
+  background: #ffe08a;
   transform: translateY(-2px);
 }
 
@@ -227,7 +227,7 @@ onMounted(() => {
 .result-box {
   padding: 18px;
   border-radius: 18px;
-  background: #fff7ed;
+  background: #fff7d6;
 }
 
 .result-label {
@@ -246,7 +246,7 @@ onMounted(() => {
 .guidance-note {
   padding: 16px;
   border-radius: 16px;
-  background: #f8fafc;
+  background: #fff8e8;
   color: #4b5563;
   line-height: 1.7;
 }
@@ -304,7 +304,7 @@ onMounted(() => {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #ea580c;
+  color: #d97706;
 }
 
 .page-title {

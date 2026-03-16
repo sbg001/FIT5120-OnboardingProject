@@ -136,8 +136,8 @@ onMounted(() => {
   margin-bottom: 24px;
   padding: 32px;
   border-radius: 24px;
-  background: linear-gradient(135deg, #7c3aed 0%, #9333ea 45%, #a855f7 100%);
-  color: white;
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 45%, #fde68a 100%);
+  color: #3b2f0f;
   box-shadow: 0 12px 30px rgba(31, 41, 55, 0.12);
 }
 
@@ -147,7 +147,7 @@ onMounted(() => {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #ede9fe;
+  color: #7c2d12;
 }
 
 .awareness-hero h1 {
@@ -160,13 +160,13 @@ onMounted(() => {
   margin: 0;
   max-width: 760px;
   line-height: 1.7;
-  color: #f3e8ff;
+  color: #5b4a1b;
 }
 
 .state-card,
 .data-card,
 .insight-card {
-  background: white;
+  background: rgba(255, 252, 244, 0.96);
   border-radius: 24px;
   box-shadow: 0 12px 30px rgba(31, 41, 55, 0.08);
 }
@@ -207,8 +207,8 @@ onMounted(() => {
 .card-badge {
   display: inline-block;
   padding: 8px 12px;
-  background: #f3e8ff;
-  color: #7e22ce;
+  background: #fff1bf;
+  color: #92400e;
   font-size: 0.85rem;
   font-weight: 700;
   border-radius: 999px;
@@ -231,7 +231,7 @@ onMounted(() => {
   align-items: center;
   gap: 12px;
   padding: 14px 16px;
-  background: #f8fafc;
+  background: #fff8dc;
   border-radius: 16px;
 }
 

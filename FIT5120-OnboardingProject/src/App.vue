@@ -34,12 +34,17 @@ body,
   margin: 0;
   min-height: 100%;
   font-family: Arial, Helvetica, sans-serif;
-  background: linear-gradient(180deg, #f8fbff 0%, #eef5fb 100%);
   color: #1f2937;
 }
 
 body {
   margin: 0;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 210, 70, 0.75) 0%, rgba(255, 210, 70, 0) 28%),
+    radial-gradient(circle at 88% 14%, rgba(255, 239, 140, 0.72) 0%, rgba(255, 239, 140, 0) 26%),
+    radial-gradient(circle at 72% 78%, rgba(255, 196, 50, 0.42) 0%, rgba(255, 196, 50, 0) 24%),
+    linear-gradient(180deg, #fff9db 0%, #fff3b8 42%, #ffe98f 100%);
+  background-attachment: fixed;
 }
 
 .app-shell {
@@ -55,7 +60,7 @@ body {
   align-items: center;
   gap: 20px;
   padding: 18px 32px;
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 248, 220, 0.9);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(148, 163, 184, 0.18);
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
