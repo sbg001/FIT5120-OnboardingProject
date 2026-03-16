@@ -89,8 +89,8 @@
 
         <div class="action-card">
           <div class="action-icon">🕶️</div>
-          <h3>Clothing Guide</h3>
-          <p>Get clothing suggestions based on the current UV conditions.</p>
+          <h3>Fit Check</h3>
+          <p>Sun-smart clothing suggestions to match your aesthetic with the current UV.</p>
           <button class="action-btn">Open Page</button>
         </div>
 
