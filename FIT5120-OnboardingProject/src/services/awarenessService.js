@@ -1,6 +1,8 @@
+const API_BASE = "https://fit5120-onboardingproject.onrender.com"
+
 export async function getUvTrendData() {
   try {
-    const response = await fetch('http://localhost:3000/api/awareness/uv-trend')
+    const response = await fetch(`${API_BASE}/api/awareness/uv-trend`)
     const data = await response.json()
     return data
   } catch (error) {
@@ -11,7 +13,7 @@ export async function getUvTrendData() {
 
 export async function getCancerStatsData() {
   try {
-    const response = await fetch('http://localhost:3000/api/awareness/cancer-stats')
+    const response = await fetch(`${API_BASE}/api/awareness/cancer-stats`)
     const data = await response.json()
     return data
   } catch (error) {
@@ -22,7 +24,7 @@ export async function getCancerStatsData() {
 
 export async function getTemperatureTrendData() {
   try {
-    const response = await fetch('http://localhost:3000/api/awareness/temperature-trend')
+    const response = await fetch(`${API_BASE}/api/awareness/temperature-trend`)
     const data = await response.json()
     return data
   } catch (error) {
