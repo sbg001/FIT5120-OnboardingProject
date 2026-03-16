@@ -91,7 +91,7 @@
           <div class="action-icon">🕶️</div>
           <h3>Fit Check</h3>
           <p>Sun-smart clothing suggestions to match your aesthetic with the current UV.</p>
-          <button class="action-btn">Open Page</button>
+          <button class="action-btn" @click="$router.push('/clothing')">Open Page</button>
         </div>
 
         <div class="action-card">

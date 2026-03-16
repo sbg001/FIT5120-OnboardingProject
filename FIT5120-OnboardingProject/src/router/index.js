@@ -3,6 +3,7 @@ import DashboardView from '../views/DashboardView.vue'
 import UvAwarenessView from '../views/UvAwarenessView.vue'
 import SunscreenDosageView from '../views/SunscreenDosageView.vue'
 import RiskAssessmentView from '../views/RiskAssessmentView.vue'
+import ClothingRecommendationView from '../views/ClothingRecommendationView.vue'
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/risk',
     name: 'risk',
     component: RiskAssessmentView
+  },
+  {
+    path: '/clothing',
+    name: 'clothing',
+    component: ClothingRecommendationView
   }
 ]
 
