@@ -1,15 +1,16 @@
 const API_BASE = "https://fit5120-onboardingproject.onrender.com"
 
-export async function getDosageRecommendation(data) {
+export async function getDosageRecommendation(uv) {
+
   try {
 
-    const response = await fetch(`${API_BASE}/api/dosage`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    })
+    const response = await fetch(
+      `${API_BASE}/api/sunscreen/dosage?uv=${uv}`
+    )
+
+    if (!response.ok) {
+      throw new Error("Dosage API failed")
+    }
 
     const result = await response.json()
 
@@ -19,7 +20,7 @@ export async function getDosageRecommendation(data) {
 
     console.error("Dosage API error:", error)
 
-    throw new Error("Could not load dosage recommendation")
+    return null
 
   }
 }
