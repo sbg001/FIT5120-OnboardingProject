@@ -315,4 +315,46 @@ const uvRingStyle = computed(() => {
   font-size: 1rem;
   font-weight: 700;
 }
+
+.uv-message {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.alert-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.alert-card {
+  padding: 24px;
+  border-left: 8px solid #f59e0b;
+}
+
+.alert-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.info-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.quick-actions-section {
+  margin-bottom: 28px;
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
 </style>
