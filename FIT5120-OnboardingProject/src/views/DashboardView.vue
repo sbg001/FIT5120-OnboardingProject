@@ -22,13 +22,17 @@
       </div>
 
       <div class="hero-right">
-        <div class="uv-card moderate">
+        <div class="uv-card" :class="uvData?.riskLevel?.toLowerCase()">
           <p class="uv-card-title">Current UV Index</p>
 
-          <div class="uv-ring">
+          <div class="uv-ring" :style="uvRingStyle">
             <div class="uv-ring-inner">
               <span class="uv-number">{{ uvData?.uvIndex }}</span>
-              <span class="uv-label">{{ uvData?.riskLevel }}</span>
+
+              <span class="uv-label">
+                {{ uvData?.uvIndex === 0 ? "Night" : uvData?.riskLevel }}
+              </span>
+
             </div>
           </div>
 
@@ -108,7 +112,7 @@
 
 <script setup>
 // - real UV value
-import { ref, onMounted } from "vue"
+import { ref, onMounted, computed } from "vue"
 import { getCurrentUV } from "../services/uvService"
 import { useRouter } from "vue-router"
 
@@ -116,7 +120,6 @@ const uvData = ref(null)
 const router = useRouter()
 
 const loading = ref(true)
-
 const error = ref(null)
 
 onMounted(async () => {
@@ -153,9 +156,21 @@ function goToRisk() {
   router.push('/risk')
 }
 
-// - dynamic colour scaling
-// - API-based location
-// - navigation buttons
+const uvRingStyle = computed(() => {
+
+  if (!uvData.value) return {}
+
+  const uv = uvData.value.uvIndex || 0
+  const degree = Math.min((uv / 11) * 360, 360)
+
+  return {
+    background: `conic-gradient(
+      #ffffff 0deg ${degree}deg,
+      rgba(255,255,255,0.28) ${degree}deg 360deg
+    )`
+  }
+
+})
 </script>
 
 
@@ -196,12 +211,6 @@ function goToRisk() {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #3b82f6;
-}
-
-.hero-left h1 {
-  margin: 0 0 12px;
-  font-size: 2.4rem;
-  line-height: 1.1;
 }
 
 .hero-text {
@@ -249,8 +258,24 @@ function goToRisk() {
   color: #111827;
 }
 
+.uv-card.low {
+  background: linear-gradient(180deg,#bbf7d0,#4ade80);
+}
+
 .uv-card.moderate {
   background: linear-gradient(180deg, #ffe88a 0%, #ffd54f 100%);
+}
+
+.uv-card.high {
+  background: linear-gradient(180deg,#fdba74,#fb923c);
+}
+
+.uv-card.very-high {
+  background: linear-gradient(180deg,#fca5a5,#ef4444);
+}
+
+.uv-card.extreme {
+  background: linear-gradient(180deg,#c4b5fd,#8b5cf6);
 }
 
 .uv-card-title {
@@ -264,10 +289,6 @@ function goToRisk() {
   height: 220px;
   margin: 0 auto 18px;
   border-radius: 50%;
-  background: conic-gradient(
-    #ffffff 0deg 240deg,
-    rgba(255, 255, 255, 0.28) 240deg 360deg
-  );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -287,191 +308,11 @@ function goToRisk() {
 .uv-number {
   font-size: 3.3rem;
   font-weight: 800;
-  line-height: 1;
 }
 
 .uv-label {
   margin-top: 8px;
   font-size: 1rem;
   font-weight: 700;
-}
-
-.uv-message {
-  margin: 0;
-  font-size: 0.98rem;
-  line-height: 1.6;
-}
-
-.alert-section {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 24px;
-  margin-bottom: 28px;
-}
-
-.alert-card {
-  padding: 24px;
-  border-left: 8px solid #f59e0b;
-}
-
-.alert-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 14px;
-}
-
-.alert-badge {
-  display: inline-block;
-  padding: 8px 12px;
-  background: #fff4d6;
-  color: #92400e;
-  font-size: 0.85rem;
-  font-weight: 700;
-  border-radius: 999px;
-}
-
-.alert-time {
-  font-size: 0.9rem;
-  color: #6b7280;
-}
-
-.alert-card h2 {
-  margin: 0 0 10px;
-  font-size: 1.4rem;
-}
-
-.alert-card p {
-  margin: 0;
-  line-height: 1.7;
-  color: #4b5563;
-}
-
-.info-grid {
-  display: grid;
-  gap: 16px;
-}
-
-.info-card {
-  padding: 22px;
-}
-
-.info-label {
-  margin: 0 0 8px;
-  color: #6b7280;
-  font-size: 0.9rem;
-}
-
-.info-value {
-  margin: 0;
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: #111827;
-}
-
-.quick-actions-section {
-  margin-bottom: 28px;
-}
-
-.section-heading {
-  margin-bottom: 18px;
-}
-
-.section-heading h2 {
-  margin: 0 0 8px;
-  font-size: 1.6rem;
-}
-
-.section-heading p {
-  margin: 0;
-  color: #6b7280;
-}
-
-.action-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-
-.action-card {
-  padding: 24px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.action-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 32px rgba(31, 41, 55, 0.12);
-}
-
-.action-icon {
-  font-size: 2rem;
-  margin-bottom: 14px;
-}
-
-.action-card h3 {
-  margin: 0 0 10px;
-  font-size: 1.1rem;
-}
-
-.action-card p {
-  margin: 0 0 18px;
-  color: #4b5563;
-  line-height: 1.6;
-  min-height: 78px;
-}
-
-.action-btn {
-  border: none;
-  border-radius: 14px;
-  padding: 12px 16px;
-  background: #1d4ed8;
-  color: #ffffff;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.action-btn:hover {
-  background: #1e40af;
-}
-
-@media (max-width: 1100px) {
-  .dashboard-hero,
-  .alert-section,
-  .action-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (max-width: 768px) {
-  .dashboard-page {
-    padding: 20px;
-  }
-
-  .dashboard-hero,
-  .alert-section,
-  .action-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-left h1 {
-    font-size: 2rem;
-  }
-
-  .uv-ring {
-    width: 180px;
-    height: 180px;
-  }
-
-  .uv-ring-inner {
-    width: 140px;
-    height: 140px;
-  }
-
-  .uv-number {
-    font-size: 2.6rem;
-  }
 }
 </style>
