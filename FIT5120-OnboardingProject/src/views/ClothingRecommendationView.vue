@@ -93,13 +93,11 @@ async function loadFitCheck() {
   error.value = ''
 
   try {
-    // 1. Fetch current UV index first
     const uvRes = await fetch('http://localhost:3000/api/uv/current')
     if (!uvRes.ok) throw new Error('Failed to fetch UV data')
     const uvJson = await uvRes.json()
     uvIndex.value = uvJson.uvIndex
 
-    // 2. Fetch the clothing recommendations based on that UV index
     const clothRes = await fetch(`http://localhost:3000/api/recommendation/clothing?uv=${uvIndex.value}`)
     if (!clothRes.ok) throw new Error('Failed to fetch clothing rules')
     clothingData.value = await clothRes.json()
