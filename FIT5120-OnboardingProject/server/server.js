@@ -1,6 +1,12 @@
 // DATA LAYER PLACEHOLDER
 // TODO: replace with database queries (Data Science teammate)
 
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = "https://cmdxxecppngyuzwvmvdu.supabase.co"
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNtZHh4ZWNwcG5neXV6d3ZtdmR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNzk4NDIsImV4cCI6MjA4ODg1NTg0Mn0.TX5JvRfwpqV7FCvsCI1L0nzmn9dQ0G-bZvJVpcsgQgM"
+
+const supabase = createClient(supabaseUrl, supabaseKey)
 const awarenessData = {
   uvTrend: [
     { year: 2019, uv: 8.1 },
@@ -132,19 +138,36 @@ app.get("/api/awareness/uv-trend", (req, res) => {
 // AC2.1 UV Awareness Visualisation
 // TODO: replace mock data with database query
 
-app.get("/api/awareness/cancer-stats", (req, res) => {
+app.get("/api/awareness/cancer-stats", async (req, res) => {
 
-  const data = [
-    { year: 2019, cases: 12000 },
-    { year: 2020, cases: 12500 },
-    { year: 2021, cases: 13000 }
-  ]
+  const { data, error } = await supabase
+    .from("skin_cancer_stats")
+    .select("*")
+
+  if (error) {
+    console.error(error)
+    return res.status(500).json({ error: "Database error" })
+  }
 
   res.json(data)
 
 })
 
+app.get("/api/awareness/temperature-trend", async (req, res) => {
 
+  const { data, error } = await supabase
+    .from("temperature")
+    .select("year, month, day, max_temperature")
+    .limit(365)
+
+  if (error) {
+    console.error(error)
+    return res.status(500).json({ error: "Database error" })
+  }
+
+  res.json(data)
+
+})
 // ===============================
 // US3.3 Sun-Protective Clothing Guidance
 // AC3.3 clothing recommendations based on UV Index
