@@ -93,13 +93,17 @@ async function loadFitCheck() {
   error.value = ''
 
   try {
-    const uvRes = await fetch('http://localhost:3000/api/uv/current')
-    if (!uvRes.ok) throw new Error('Failed to fetch UV data')
+    const uvRes = await fetch(
+      'https://fit5120-onboardingproject.onrender.com/api/uv/current'
+    )
+
     const uvJson = await uvRes.json()
     uvIndex.value = uvJson.uvIndex
 
-    const clothRes = await fetch(`http://localhost:3000/api/recommendation/clothing?uv=${uvIndex.value}`)
-    if (!clothRes.ok) throw new Error('Failed to fetch clothing rules')
+    const clothRes = await fetch(
+      `https://fit5120-onboardingproject.onrender.com/api/recommendation/clothing?uv=${uvIndex.value}`
+    )
+
     clothingData.value = await clothRes.json()
 
   } catch (err) {
