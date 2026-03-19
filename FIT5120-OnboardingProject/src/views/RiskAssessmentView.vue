@@ -82,21 +82,22 @@
         <p>{{ error }}</p>
       </div>
     </section>
-
     <section class="education-section">
       <div class="education-card">
-        <h3>Why personal risk matters</h3>
+        <h3>What is UV risk?</h3>
         <p>
-          UV safety is not identical for everyone. Personalised assessment helps Chloe
-          make better decisions instead of relying only on a general warning.
+          UV risk represents how likely your skin is to be damaged by ultraviolet radiation.
+          It depends on both environmental factors like UV index and personal factors such
+          as skin type. Higher UV levels and lighter skin types increase the risk of damage.
         </p>
       </div>
 
       <div class="education-card">
-        <h3>How to use this page</h3>
+        <h3>How to reduce your risk?</h3>
         <p>
-          Try different UV levels and skin types to see how quickly the risk level
-          changes. This makes the app feel interactive and educational during demos.
+          You can reduce your UV risk by wearing sunscreen with appropriate SPF, avoiding
+          peak sun hours, wearing protective clothing, and reapplying sunscreen regularly.
+          Staying in shade and monitoring UV levels can also help protect your skin.
         </p>
       </div>
     </section>

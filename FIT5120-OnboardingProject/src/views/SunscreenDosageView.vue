@@ -77,24 +77,25 @@
         <p>{{ error }}</p>
       </div>
     </section>
-
     <section class="education-section">
-      <div class="education-card">
-        <h3>Why sunscreen amount matters</h3>
-        <p>
-          Many people apply less sunscreen than they actually need. This guidance helps
-          Chloe make better sun-safety decisions instead of guessing.
-        </p>
-      </div>
+    <div class="education-card">
+      <h3>Why is sunscreen important?</h3>
+      <p>
+        Sunscreen protects your skin from harmful ultraviolet (UV) radiation, which can
+        cause sunburn, premature aging, and increase the risk of skin cancer. Even on cloudy
+        days, UV rays can still penetrate your skin and cause damage.
+      </p>
+    </div>
 
-      <div class="education-card">
-        <h3>How to use this page</h3>
-        <p>
-          Chloe can test different UV levels and immediately see how recommendations
-          change, making the page useful and interactive during demo presentations.
-        </p>
-      </div>
-    </section>
+    <div class="education-card">
+      <h3>What happens without protection?</h3>
+      <p>
+        Without proper protection, prolonged UV exposure can lead to skin damage such as
+        sunburn, dark spots, wrinkles, and long-term health risks including melanoma and
+        other forms of skin cancer. Regular sunscreen use significantly reduces these risks.
+      </p>
+    </div>
+  </section>
     </div>
     <PageHeader></PageHeader>
 </template>

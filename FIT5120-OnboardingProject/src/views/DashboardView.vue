@@ -3,23 +3,48 @@
     <section class="dashboard-hero">
       <div class="hero-left">
         <p class="dashboard-title">Sun Safety Dashboard</p>
+
         <p class="hero-text">
           Stay ahead of UV exposure with clear alerts, practical advice, and quick access
           to the tools that help you protect your skin.
         </p>
 
-        <div class="location-row">
-          <div class="location-pill">
-            <span class="pill-label">Location</span>
-            <span class="pill-value">Melbourne VIC</span>
+        <div class="hero-stats">
+          <div class="stat-card">
+            <span class="stat-label">UV Index</span>
+            <span class="stat-value">{{ uvData?.uvIndex }}</span>
           </div>
 
-          <div class="location-pill">
-            <span class="pill-label">Status</span>
-            <span class="pill-value">{{ uvData?.riskLevel }} UV Day</span>
+          <div class="stat-card">
+            <span class="stat-label">Temperature</span>
+            <span class="stat-value">{{ uvData?.temperature }}°C</span>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-label">Reapply</span>
+            <span class="stat-value">{{ uvData?.reapplyMinutes }} min</span>
           </div>
         </div>
-      </div>
+
+        <!-- summary -->
+        <div class="hero-summary">
+          <p class="summary-main">
+            {{ uvData?.riskLevel }} UV • Melbourne
+          </p>
+
+          <p class="summary-sub">
+            {{ uvData?.uvIndex === 0 
+              ? "Low exposure tonight. No protection needed." 
+              : "UV exposure present. Consider protection outdoors." }}
+          </p>
+
+          <p class="summary-tip">
+            ☀️ Tip: Protection is recommended when UV reaches 3 or above.
+          </p>
+          
+        </div> 
+
+      </div> <!-- ✅ 这里补上，关闭 hero-left -->
 
       <div class="hero-right">
         <div class="uv-card" :class="uvData?.riskLevel?.toLowerCase()">
@@ -53,11 +78,18 @@
         <h2 class="alert-title">Today's guidance</h2>
 
         <p class="alert-text">
-          UV levels are moderate right now. Wear sunscreen, sunglasses, and keep an eye on
-          exposure if spending extended time outside.
+          UV levels are currently <strong>{{ uvData?.riskLevel }}</strong>.
+          {{ uvData?.uvIndex < 3 
+            ? "Minimal risk at this time. You can stay outdoors safely." 
+            : "Protection is recommended. Apply sunscreen, wear sunglasses, and limit prolonged exposure." }}
         </p>
-      </div>
 
+        <ul class="alert-list">
+          <li>✔ Check UV index before going outside</li>
+          <li>✔ Apply SPF 30+ sunscreen if UV ≥ 3</li>
+          <li>✔ Reapply every {{ uvData?.reapplyMinutes }} minutes</li>
+        </ul>
+      </div>
       <div class="info-grid">
         <div class="info-card">
           <div class="info-icon">🌡️</div>
@@ -308,6 +340,8 @@ const uvRingStyle = computed(() => {
   background: rgba(255, 252, 244, 0.97);
   border-left: 8px solid #f59e0b;
   box-shadow: 0 12px 30px rgba(31, 41, 55, 0.08);
+  position: relative; 
+  overflow: hidden; 
 }
 
 .alert-top {
@@ -345,10 +379,10 @@ const uvRingStyle = computed(() => {
 
 .alert-text {
   margin: 0;
-  font-size: 1.15rem;
-  line-height: 1.7;
+  font-size: 1.2rem;   
+  line-height: 1.8;    
   color: #334155;
-  max-width: 90%;
+  max-width: 100%;    
 }
 
 .info-grid {
@@ -493,4 +527,123 @@ const uvRingStyle = computed(() => {
   color: #111827;
 }
 
+.hero-summary {
+  margin: 20px 0 24px;
+  padding: 20px;
+  border-radius: 16px;
+  background: #fff7d6;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+}
+
+.summary-main {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.summary-sub {
+  font-size: 0.95rem;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.summary-tip {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #d97706;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 14px;
+  margin: 18px 0 22px;
+}
+
+.stat-card {
+  flex: 1;
+  background: #fff7d6;
+  border-radius: 16px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.hero-summary {
+  margin: 10px 0 0;
+  padding: 16px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #fff7d6, #fde68a);
+}
+
+.summary-main {
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.summary-sub {
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+.summary-tip {
+  font-size: 0.8rem;
+  margin-top: 8px;
+}
+
+.alert-extra {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.extra-item {
+  flex: 1;
+  background: #fff7d6;
+  padding: 12px 14px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.extra-item strong {
+  font-weight: 800;
+}
+
+.alert-card::after {
+  content: "";
+  position: absolute;
+  right: -40px;
+  bottom: -40px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, #fde68a, transparent);
+  opacity: 0.4;
+}
+
+.alert-list {
+  margin-top: 16px;
+  padding-left: 18px;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.alert-list li {
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
 </style>
