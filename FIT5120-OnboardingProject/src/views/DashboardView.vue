@@ -2,7 +2,7 @@
   <div class="dashboard-page">
     <section class="dashboard-hero">
       <div class="hero-left">
-        <p class="eyebrow">Sun Safety Dashboard</p>
+        <p class="dashboard-title">Sun Safety Dashboard</p>
         <p class="hero-text">
           Stay ahead of UV exposure with clear alerts, practical advice, and quick access
           to the tools that help you protect your skin.
@@ -45,27 +45,32 @@
 
     <section class="alert-section">
       <div class="alert-card">
-        <div class="alert-header">
+        <div class="alert-top">
           <span class="alert-badge">UV Alert</span>
           <span class="alert-time">Next update in 15 min</span>
         </div>
 
-        <h2>Today's guidance</h2>
-        <p>
-          UV levels are moderate right now. Wear sunscreen, sunglasses, and
-          keep an eye on exposure if spending extended time outside.
+        <h2 class="alert-title">Today's guidance</h2>
+
+        <p class="alert-text">
+          UV levels are moderate right now. Wear sunscreen, sunglasses, and keep an eye on
+          exposure if spending extended time outside.
         </p>
       </div>
 
       <div class="info-grid">
         <div class="info-card">
-          <p class="info-label">Current Temp</p>
+          <div class="info-icon">🌡️</div>
+          <p class="info-label">Current Temperature</p>
           <p class="info-value">{{ uvData?.temperature }}°C</p>
+          <p class="info-subtext">Live outdoor condition</p>
         </div>
 
         <div class="info-card">
+          <div class="info-icon">🧴</div>
           <p class="info-label">Re-apply Sunscreen</p>
           <p class="info-value">{{ uvData?.reapplyMinutes }} min</p>
+          <p class="info-subtext">Recommended reminder window</p>
         </div>
       </div>
     </section>
@@ -73,7 +78,7 @@
     <section class="quick-actions-section">
       <div class="section-heading">
         <h2>Quick Actions</h2>
-        <p>Explore the most useful tools for Chloe’s sun-safety routine.</p>
+        <p>Explore the most useful tools for sun-safety routine.</p>
       </div>
 
       <div class="action-grid">
@@ -87,7 +92,7 @@
         <div class="action-card">
           <div class="action-icon">🧴</div>
           <h3>Sunscreen Dosage</h3>
-          <p>Help Chloe understand how much sunscreen to apply for protection.</p>
+          <p>Understand how much sunscreen to apply for protection.</p>
           <button class="action-btn" @click="goToDosage">Open Page</button>
         </div>
 
@@ -214,13 +219,18 @@ const uvRingStyle = computed(() => {
 
 .location-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
 }
 
 .location-pill {
-  padding: 10px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 18px;
   background: #fff7d6;
-  border-radius: 12px;
+  border-radius: 16px;
+  min-width: 170px;
 }
 
 .hero-right {
@@ -234,36 +244,25 @@ const uvRingStyle = computed(() => {
 }
 
 .uv-card.low {
-  background: linear-gradient(180deg,#bbf7d0,#4ade80);
-}
-
-.uv-card.moderate {
-  background: linear-gradient(180deg,#ffe88a,#ffd54f);
-}
-
-.uv-card.low {
   background: linear-gradient(180deg, #d1fae5 0%, #6ee7b7 100%);
 }
 
-.uv-card.high {
-  background: linear-gradient(180deg, #fed7aa 0%, #fb923c 100%);
-}
-
-.uv-card.extreme {
-  background: linear-gradient(180deg, #fecaca 0%, #ef4444 100%);
-  color: white;
+.uv-card.moderate {
+  background: linear-gradient(180deg, #ffe88a 0%, #ffd54f 100%);
 }
 
 .uv-card.high {
-  background: linear-gradient(180deg,#fdba74,#fb923c);
+  background: linear-gradient(180deg, #fdba74 0%, #fb923c 100%);
 }
 
 .uv-card.very-high {
-  background: linear-gradient(180deg,#fca5a5,#ef4444);
+  background: linear-gradient(180deg, #fca5a5 0%, #ef4444 100%);
+  color: white;
 }
 
 .uv-card.extreme {
-  background: linear-gradient(180deg,#c4b5fd,#8b5cf6);
+  background: linear-gradient(180deg, #c4b5fd 0%, #8b5cf6 100%);
+  color: white;
 }
 
 .uv-ring {
@@ -304,22 +303,89 @@ const uvRingStyle = computed(() => {
 }
 
 .alert-card {
-  padding: 28px;
-  border-left: 6px solid #f59e0b;
+  padding: 30px;
+  border-radius: 28px;
+  background: rgba(255, 252, 244, 0.97);
+  border-left: 8px solid #f59e0b;
+  box-shadow: 0 12px 30px rgba(31, 41, 55, 0.08);
+}
+
+.alert-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.alert-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #fff1bf;
+  color: #92400e;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.alert-time {
+  font-size: 0.95rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.alert-title {
+  margin: 0 0 14px;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #2563eb;
+}
+
+.alert-text {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: #334155;
+  max-width: 90%;
 }
 
 .info-grid {
   display: grid;
-  gap: 16px;
+  gap: 18px;
 }
 
 .info-card {
-  padding: 20px;
+  padding: 24px;
+  border-radius: 24px;
+  background: rgba(255, 252, 244, 0.97);
+  box-shadow: 0 12px 30px rgba(31, 41, 55, 0.08);
+}
+
+.info-icon {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+}
+
+.info-label {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+  color: #64748b;
+  font-weight: 600;
 }
 
 .info-value {
-  font-size: 1.4rem;
-  font-weight: 700;
+  margin: 0 0 8px;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.info-subtext {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #94a3b8;
 }
 
 .quick-actions-section {
@@ -406,6 +472,25 @@ const uvRingStyle = computed(() => {
 .dashboard-page h3 {
   color: #2563eb;
   font-weight: 700;
+}
+
+.dashboard-title {
+  margin: 0 0 12px;
+  font-size: 2rem;
+  font-weight: 900;
+  background: linear-gradient(90deg, #f59e0b, #facc15);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pill-label {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.pill-value {
+  font-weight: 700;
+  color: #111827;
 }
 
 </style>
